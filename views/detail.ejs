@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= toilet.name %> - 口コミ詳細</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .box { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .back-link { display: inline-block; margin-bottom: 15px; color: #007bff; text-decoration: none; }
+        .review-card { border-bottom: 1px solid #eee; padding: 15px 0; }
+        .review-card:last-child { border-bottom: none; }
+        .star { color: #f5c518; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        select, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { margin-top: 15px; padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← 一覧に戻る</a>
+        
+        <div class="box">
+            <h1><%= toilet.name %></h1>
+            <p>📍 <%= toilet.building %> - <%= toilet.floor %></p>
+        </div>
+
+        <div class="box">
+            <h2>口コミを投稿する</h2>
+            <form action="/toilets/<%= toilet.id %>/reviews" method="POST">
+                <label>✨ 清潔さ</label>
+                <select name="cleanliness" required>
+                    <option value="5">★★★★★ (5) ピカピカ</option>
+                    <option value="4">★★★★☆ (4) 綺麗</option>
+                    <option value="3" selected>★★★☆☆ (3) 普通</option>
+                    <option value="2">★★☆☆☆ (2) 少し汚い</option>
+                    <option value="1">★☆☆☆☆ (1) 汚い</option>
+                </select>
+
+                <label>👥 空き具合</label>
+                <select name="crowdedness" required>
+                    <option value="5">★★★★★ (5) いつも空いてる</option>
+                    <option value="4">★★★★☆ (4) 比較的空いてる</option>
+                    <option value="3" selected>★★★☆☆ (3) 普通</option>
+                    <option value="2">★★☆☆☆ (2) 混みがち</option>
+                    <option value="1">★☆☆☆☆ (1) 大行列</option>
+                </select>
+
+                <label>🚶 アクセスのしやすさ</label>
+                <select name="accessibility" required>
+                    <option value="5">★★★★★ (5) 教室からすぐ</option>
+                    <option value="4">★★★★☆ (4) 行きやすい</option>
+                    <option value="3" selected>★★★☆☆ (3) 普通</option>
+                    <option value="2">★★☆☆☆ (2) 少し遠い</option>
+                    <option value="1">★☆☆☆☆ (1) かなり遠い</option>
+                </select>
+
+                <label>💬 コメント（任意）</label>
+                <textarea name="comment" rows="3" placeholder="例：個室が広くて着替えやすいです！"></textarea>
+
+                <button type="submit">投稿する</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h2>みんなの口コミ (<%= reviews.length %>件)</h2>
+            <% if (reviews.length === 0) { %>
+                <p>まだ口コミがありません。</p>
+            <% } else { %>
+                <% reviews.forEach(review => { %>
+                    <div class="review-card">
+                        <div>
+                            <span>✨清潔: <span class="star">★</span><%= review.cleanliness %></span> | 
+                            <span>👥空き具合: <span class="star">★</span><%= review.crowdedness %></span> | 
+                            <span>🚶アクセス: <span class="star">★</span><%= review.accessibility %></span>
+                        </div>
+                        <% if (review.comment) { %>
+                            <p style="margin: 10px 0; background: #f8f9fa; padding: 10px; border-radius: 4px;"><%= review.comment %></p>
+                        <% } %>
+                        <div style="color: #888; font-size: 0.8em; text-align: right;">
+                            <%= new Date(review.created_at).toLocaleString() %>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
+</body>
+</html>

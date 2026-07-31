@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新しいトイレを登録</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .back-link { display: inline-block; margin-bottom: 15px; color: #007bff; text-decoration: none; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { margin-top: 20px; padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; width: 100%; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← 一覧に戻る</a>
+        <h1>新しいトイレを登録 🚽</h1>
+        <form action="/add-toilet" method="POST">
+            <label>棟の名前（例：3号館、学生会館）</label>
+            <input type="text" name="building" required placeholder="例：3号館">
+
+            <label>階数（例：1階、B1階）</label>
+            <input type="text" name="floor" required placeholder="例：2階">
+
+            <label>表示名（一覧に表示される名前）</label>
+            <input type="text" name="name" required placeholder="例：3号館 2階 男子トイレ">
+
+            <button type="submit">このトイレを登録する</button>
+        </form>
+    </div>
+</body>
+</html>

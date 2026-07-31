@@ -1,18 +1,43 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head><meta charset="UTF-8"><title>ユーザー一覧</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学内トイレ口コミマップ</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f2f5; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { background: #fff; padding: 15px; margin-bottom: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: block; text-decoration: none; color: inherit; transition: 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .location { font-size: 0.9em; color: #666; margin-bottom: 10px; }
+        .stats { display: flex; gap: 15px; font-size: 0.9em; }
+        .stat-item { background: #e9ecef; padding: 5px 10px; border-radius: 20px; }
+        .star { color: #f5c518; font-weight: bold; }
+    </style>
+</head>
 <body>
-  <h1>ユーザー一覧</h1>
-  <ul>
-  <% users.forEach(user => { %>
-    <li><%= user.name %>（<%= user.age ? user.age + '歳' : '年齢未登録' %>）</li>
-  <% }) %>
-</ul>
-  <h2>ユーザー追加</h2>
-  <form action="/users" method="post">
-  <input type="text" name="name" placeholder="名前" required>
-  <input type="number" name="age" placeholder="年齢">
-  <button type="submit">追加</button>
-</form>
+    <div class="container">
+        <h1>🚽 学内トイレ口コミマップ</h1>
+        <p>キャンパス内のトイレ情報をチェック・評価しよう！</p>
+        <a href="/add-toilet" style="display: inline-block; padding: 10px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px;">＋ 新しいトイレを登録する</a>
+        
+        <% toilets.forEach(toilet => { %>
+            <a href="/toilets/<%= toilet.id %>" class="card">
+                <h2><%= toilet.name %></h2>
+                <div class="location">📍 <%= toilet.building %> - <%= toilet.floor %></div>
+                
+                <% if (toilet.review_count > 0) { %>
+                    <div class="stats">
+                        <span class="stat-item">✨ 清潔: <span class="star">★</span><%= toilet.avg_clean %></span>
+                        <span class="stat-item">👥 空き具合: <span class="star">★</span><%= toilet.avg_crowd %></span>
+                        <span class="stat-item">🚶 アクセス: <span class="star">★</span><%= toilet.avg_access %></span>
+                        <span style="color: #888;">(<%= toilet.review_count %>件)</span>
+                    </div>
+                <% } else { %>
+                    <div style="color: #888; font-size: 0.9em;">まだ口コミがありません。最初の口コミを投稿しませんか？</div>
+                <% } %>
+            </a>
+        <% }) %>
+    </div>
 </body>
 </html>
