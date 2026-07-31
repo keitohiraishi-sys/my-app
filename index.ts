@@ -34,14 +34,19 @@ app.get("/", async (req, res) => {
   }
 });
 
-// ユーザー追加のルート
 app.post("/users", async (req, res) => {
-  const name = req.body.name;
+  const { name, age } = req.body;
   if (name) {
-    await prisma.user.create({ data: { name } });
+    await prisma.user.create({ 
+      data: { 
+        name, 
+        age: age ? parseInt(age) : null // 文字列を数字に変えて保存するのじゃ
+      } 
+    });
   }
   res.redirect("/");
 });
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
