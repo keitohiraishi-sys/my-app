@@ -1,0 +1,15 @@
+// ここは初期設定のままでよい
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ここが重要！これが無いと prisma.user が使えぬ
+model User {
+  id   Int    @id @default(autoincrement())
+  name String
+}
